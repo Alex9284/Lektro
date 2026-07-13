@@ -1,0 +1,246 @@
+/* ==========================================================================
+   LEKTRO — NAV UNIFICADO
+   Barra fija de ancho completo, degradada, con dropdown y panel mobile.
+   ========================================================================== */
+
+.lek-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+  background: linear-gradient(90deg, var(--void) 0%, var(--panel) 45%, var(--panel-2) 100%);
+  border-bottom: 1px solid var(--line);
+  transition: background .35s ease, box-shadow .35s ease, padding .3s ease;
+}
+
+.lek-nav.is-scrolled {
+  background: linear-gradient(90deg, rgba(5,7,13,.92) 0%, rgba(11,17,32,.92) 45%, rgba(16,26,48,.92) 100%);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px -14px rgba(0,0,0,.6);
+}
+
+.lek-nav__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+}
+
+.lek-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.lek-nav__brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(52,245,208,.35));
+}
+.lek-nav__brand span {
+  font-family: 'Syne', 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: .01em;
+  background: linear-gradient(90deg, var(--text), var(--electric));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lek-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lek-nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  transition: color .25s ease, background .25s ease;
+}
+.lek-nav__link:hover,
+.lek-nav__link:focus-visible {
+  color: var(--void);
+  background: var(--electric);
+}
+.lek-nav__link i.fa-chevron-down {
+  font-size: 10px;
+  transition: transform .25s ease;
+}
+.lek-nav__dropdown-btn[aria-expanded="true"] i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+/* ---- Dropdown Productos ---- */
+.lek-nav__dropdown {
+  position: relative;
+}
+.lek-nav__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 260px;
+  background: linear-gradient(160deg, var(--panel-3), var(--panel) 80%);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 24px 50px -20px rgba(0,0,0,.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease, transform .22s ease;
+  z-index: 10;
+}
+.lek-nav__dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--panel-3);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+.lek-nav__dropdown.is-open .lek-nav__dropdown-menu,
+.lek-nav__dropdown:hover .lek-nav__dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.lek-nav__dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+.lek-nav__dropdown-menu a i {
+  width: 18px;
+  text-align: center;
+  color: var(--gold);
+}
+.lek-nav__dropdown-menu a:hover {
+  background: rgba(52,245,208,.1);
+  color: var(--text);
+}
+
+/* ---- Hamburger toggle ---- */
+.lek-nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.lek-nav__toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin: 0 auto;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.lek-nav__toggle.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.lek-nav__toggle.is-active span:nth-child(2) { opacity: 0; }
+.lek-nav__toggle.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Espaciador para que el contenido no quede tapado por el nav fijo */
+.lek-nav-spacer { height: 78px; }
+
+/* ---------------------------------------------------------------------- */
+/* Mobile                                                                  */
+/* ---------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  .lek-nav__toggle { display: flex; }
+
+  .lek-nav__links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(320px, 82vw);
+    background: linear-gradient(180deg, var(--panel-3), var(--void) 85%);
+    border-left: 1px solid var(--line);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 90px 20px 30px;
+    transform: translateX(100%);
+    transition: transform .4s var(--ease, cubic-bezier(.16,1,.3,1));
+    box-shadow: -30px 0 60px -20px rgba(0,0,0,.6);
+    overflow-y: auto;
+    z-index: 2001;
+  }
+  .lek-nav__links.is-open { transform: translateX(0); }
+
+  .lek-nav__link {
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .lek-nav__link:hover { background: rgba(52,245,208,.12); color: var(--text); }
+
+  .lek-nav__dropdown-menu {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 4px;
+    box-shadow: none;
+    display: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .lek-nav__dropdown-menu::before { display: none; }
+  .lek-nav__dropdown.is-open .lek-nav__dropdown-menu { display: flex; flex-direction: column; }
+  .lek-nav__dropdown:hover .lek-nav__dropdown-menu { transform: none; }
+
+  .lek-nav__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(3,5,10,.6);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+    z-index: 1999;
+  }
+  .lek-nav__backdrop.is-open { opacity: 1; pointer-events: auto; }
+}
+
+@media (max-width: 480px) {
+  .lek-nav__inner { padding: 12px 16px; }
+  .lek-nav__brand span { font-size: 19px; }
+}
