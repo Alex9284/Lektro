@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Nuevo Cliente | Lektro</title>
+
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="css/lektro-nav.css" rel="stylesheet" />
+  <link href="css/immersive.css" rel="stylesheet" />
+  <link href="css/lektro-shop.css" rel="stylesheet" />
+
+  <style>
+    .registro-section {
+      max-width: 640px;
+      margin: 60px auto 100px;
+      padding: 0 20px;
+    }
+    .registro-head {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+    .registro-head h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 4vw, 40px);
+      color: var(--text, #fff);
+      margin-bottom: 10px;
+    }
+    .registro-head p {
+      color: var(--text-dim, #b7c0d6);
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .registro-perks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 22px 0 4px;
+    }
+    .registro-perks span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(52,245,208,.08);
+      border: 1px solid rgba(52,245,208,.25);
+      color: var(--electric, #34f5d0);
+      font-size: 12.5px;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+    .registro-card {
+      background: linear-gradient(165deg, var(--panel-3, #182238), var(--panel, #101a30) 85%);
+      border: 1px solid var(--line, rgba(255,255,255,.08));
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 30px 60px -30px rgba(0,0,0,.6);
+    }
+    .registro-field {
+      margin-bottom: 18px;
+    }
+    .registro-field label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-dim, #b7c0d6);
+      margin-bottom: 6px;
+      letter-spacing: .02em;
+    }
+    .registro-field input,
+    .registro-field select {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line, rgba(255,255,255,.1));
+      border-radius: 10px;
+      color: #fff;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .registro-field input::placeholder { color: #6d7791; }
+    .registro-field input:focus,
+    .registro-field select:focus {
+      outline: none;
+      border-color: var(--electric, #34f5d0);
+      background: rgba(255,255,255,.06);
+    }
+    .registro-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 560px) {
+      .registro-row { grid-template-columns: 1fr; }
+    }
+    .registro-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-dim, #b7c0d6);
+      margin: 6px 0 24px;
+      line-height: 1.5;
+    }
+    .registro-check input {
+      margin-top: 3px;
+      accent-color: var(--electric, #34f5d0);
+    }
+    .registro-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, var(--electric, #34f5d0), var(--gold, #ffce00));
+      color: #06110d;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .registro-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -10px rgba(52,245,208,.4);
+    }
+    .registro-submit:disabled {
+      opacity: .6;
+      cursor: wait;
+      transform: none;
+    }
+    .registro-msg {
+      margin-top: 14px;
+      font-size: 13.5px;
+      text-align: center;
+      min-height: 18px;
+    }
+    .registro-msg.error { color: #ff6b6b; }
+    .registro-msg.ok { color: var(--electric, #34f5d0); }
+
+    .registro-success {
+      display: none;
+      text-align: center;
+      padding: 20px 6px 6px;
+    }
+    .registro-success .icon {
+      font-size: 44px;
+      margin-bottom: 14px;
+    }
+    .registro-success h2 {
+      font-family: 'Syne', sans-serif;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .registro-success p {
+      color: var(--text-dim, #b7c0d6);
+      font-size: 14.5px;
+      max-width: 420px;
+      margin: 0 auto 20px;
+    }
+    .registro-success a.slider_btn {
+      display: inline-block;
+    }
+    /* honeypot: oculto para humanos, visible para bots */
+    .registro-hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body data-scene="registro" class="sub_page">
+  <!-- ===== LEKTRO FX LAYER (inmersivo) ===== -->
+  <div id="lektro-boot" aria-hidden="true">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <path id="lektro-boot-bolt" d="M36 4 L14 36 H28 L22 60 L50 26 H34 Z" />
+    </svg>
+  </div>
+  <div id="lektro-progress"></div>
+  <div id="lektro-cursor"></div>
+  <div id="lektro-cursor-dot"></div>
+  <div id="lektro-scene"></div>
+  <!-- ===== /LEKTRO FX LAYER ===== -->
+
+  <header class="lek-nav" id="lekNav">
+      <div class="lek-nav__inner">
+        <a class="lek-nav__brand" href="index.html">
+          <img src="images/logo.png" alt="Lektro">
+          <span>Lektro</span>
+        </a>
+
+        <nav class="lek-nav__links" id="lekNavLinks">
+          <a href="index.html" class="lek-nav__link">Inicio</a>
+
+          <div class="lek-nav__dropdown">
+            <button type="button" class="lek-nav__link lek-nav__dropdown-btn" id="lekDropdownBtn" aria-haspopup="true" aria-expanded="false">
+              Productos <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lek-nav__dropdown-menu" id="lekDropdownMenu">
+              <a href="Auriculares.html"><i class="fas fa-headphones-alt"></i> Auriculares</a>
+              <a href="cargadores.html"><i class="fas fa-bolt"></i> Cargadores y Cables</a>
+              <a href="parlantes.html"><i class="fas fa-volume-up"></i> Parlantes y SmartWatch</a>
+              <a href="iluminacion.html"><i class="fas fa-lightbulb"></i> Iluminación y más</a>
+              <a href="bisuteria.html"><i class="fas fa-gem"></i> Bisutería Artesanal</a>
+              <a href="electro.html"><i class="fas fa-plug"></i> Electro y algo más</a>
+              <a href="mi-cuenta.html"><i class="fas fa-user"></i> Mi cuenta</a>
+            </div>
+          </div>
+
+          <a href="Nosotros.html" class="lek-nav__link">Contacto</a>
+          <a href="About.html" class="lek-nav__link">Nosotros</a>
+        </nav>
+
+        <button type="button" class="lek-nav__toggle" id="lekNavToggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="lek-nav__backdrop" id="lekNavBackdrop"></div>
+    <div class="lek-nav-spacer"></div>
+
+  <main class="registro-section">
+    <div class="registro-head">
+      <h1>⚡ Sumate a Lektro</h1>
+      <p>Registrate como cliente nuevo y enterate primero de lanzamientos, stock y descuentos exclusivos.</p>
+      <div class="registro-perks">
+        <span>🎁 Ofertas exclusivas</span>
+        <span>🚀 Acceso anticipado</span>
+        <span>🎂 Sorpresa en tu cumpleaños</span>
+      </div>
+    </div>
+
+    <div class="registro-card">
+      <form id="registroForm" novalidate>
+        <!-- honeypot anti-spam, no completar -->
+        <div class="registro-hp" aria-hidden="true">
+          <label for="empresa">No completar</label>
+          <input type="text" id="empresa" name="empresa" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="registro-field">
+          <label for="regNombre">Nombre completo *</label>
+          <input type="text" id="regNombre" name="nombre" placeholder="Tu nombre y apellido" required>
+        </div>
+
+        <div class="registro-row">
+          <div class="registro-field">
+            <label for="regEmail">Email *</label>
+            <input type="email" id="regEmail" name="email" placeholder="tu@email.com" required>
+          </div>
+          <div class="registro-field">
+            <label for="regTelefono">WhatsApp / Teléfono *</label>
+            <input type="tel" id="regTelefono" name="telefono" placeholder="11 5555 5555" required>
+          </div>
+        </div>
+
+        <div class="registro-row">
+          <div class="registro-field">
+            <label for="regCumple">Fecha de nacimiento</label>
+            <input type="date" id="regCumple" name="cumpleanos">
+          </div>
+          <div class="registro-field">
+            <label for="regConocio">¿Cómo nos conociste?</label>
+            <select id="regConocio" name="comoConocio">
+              <option value="">Elegir...</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Recomendación">Recomendación</option>
+              <option value="Marketplace">Facebook Marketplace</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="registro-check">
+          <input type="checkbox" id="regPromos" name="quierePromos" checked>
+          Quiero recibir ofertas y novedades de Lektro por WhatsApp y email.
+        </label>
+
+        <button type="submit" class="registro-submit" id="regSubmitBtn">Registrarme</button>
+        <div class="registro-msg" id="regMsg"></div>
+      </form>
+
+      <div class="registro-success" id="regSuccess">
+        <div class="icon">✅</div>
+        <h2>¡Listo, ya sos parte de Lektro!</h2>
+        <p>Guardamos tu registro. Si querés, escribinos por WhatsApp para confirmar y te contamos las ofertas activas.</p>
+        <a href="https://wa.me/+5491150980467" target="_blank" class="slider_btn">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- sign section -->
+  <div class="whatsapp-container">
+    <div class="whatsapp-bubble">Escribinos por WhatsApp</div>
+    <a href="https://wa.me/+5491150980467" target="_blank" class="whatsapp-float" title="Escribinos por WhatsApp">
+      💬
+    </a>
+  </div>
+
+  <!-- footer section -->
+  <footer class="lektro-footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <h2>LEKTRO</h2>
+        <p>Lo esencial de la electrónica, con elegancia.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Enlaces</h3>
+        <ul>
+          <li><a href="index.html" target="_blank">Inicio</a></li>
+          <li><a href="Nosotros.html" target="_blank">Contacto</a></li>
+          <li><a href="About.html" target="_blank">Nosotros</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h3>Seguinos</h3>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/lektro_sa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" title="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61575131760420" target="_blank" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://wa.me/+5491150980467" target="_blank" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <h3>Contacto</h3>
+        <p>📍 Flores, Capital Federal</p>
+        <p>📞 +54 9 1150980467</p>
+        <p>✉️ alexreina92@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lektro. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================
+    // REGISTRO DE NUEVO CLIENTE — Lektro
+    // =========================================================
+    // Los registros se guardan en 2 lugares:
+    //  1) localStorage del navegador (respaldo inmediato, siempre funciona)
+    //  2) una Google Sheet propia, a través de un Google Apps Script
+    //     que actúa como "base de datos" gratuita.
+    //
+    // PASO OBLIGATORIO: reemplazá la URL de abajo por la que te da tu
+    // propio Apps Script. Instrucciones completas en:
+    //   docs/CONFIGURAR-BASE-DE-DATOS.md (incluido junto al sitio)
+    // =========================================================
+    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/library/d/1mrHtOcf5C3BYfkrAxPJn4Js3oaGkuvVm4bCER9sf6dBUZinMU6WH9UZK/1";
+
+    const LOCAL_KEY = "lektroClientes";
+
+    function guardarLocal(registro) {
+      const actuales = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+      actuales.push(registro);
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(actuales));
+    }
+
+    async function enviarASheets(registro) {
+      if (!GOOGLE_SHEETS_ENDPOINT || GOOGLE_SHEETS_ENDPOINT.startsWith("PEGA_AQUI")) {
+        console.warn("Lektro: todavía no configuraste GOOGLE_SHEETS_ENDPOINT. El registro solo se guardó localmente.");
+        return;
+      }
+      try {
+        // Los Apps Script Web Apps no siempre devuelven CORS habilitado,
+        // por eso se usa 'no-cors': el envío igual llega a la planilla,
+        // simplemente no podemos leer la respuesta desde el navegador.
+        await fetch(GOOGLE_SHEETS_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(registro)
+        });
+      } catch (err) {
+        console.error("Lektro: error enviando el registro a Google Sheets", err);
+      }
+    }
+
+    document.getElementById("registroForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const msg = document.getElementById("regMsg");
+      const btn = document.getElementById("regSubmitBtn");
+      msg.textContent = "";
+      msg.className = "registro-msg";
+
+      // Honeypot: si un bot completó este campo oculto, se descarta en silencio.
+      if (document.getElementById("empresa").value.trim() !== "") {
+        return;
+      }
+
+      const nombre = document.getElementById("regNombre").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const telefono = document.getElementById("regTelefono").value.trim();
+      const cumpleanos = document.getElementById("regCumple").value;
+      const comoConocio = document.getElementById("regConocio").value;
+      const quierePromos = document.getElementById("regPromos").checked;
+
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const telOk = telefono.replace(/\D/g, "").length >= 8;
+
+      if (!nombre || nombre.length < 3) {
+        msg.textContent = "Ingresá tu nombre completo.";
+        msg.classList.add("error");
+        return;
+      }
+      if (!emailOk) {
+        msg.textContent = "Ingresá un email válido.";
+        msg.classList.add("error");
+        return;
+      }
+      if (!telOk) {
+        msg.textContent = "Ingresá un teléfono válido.";
+        msg.classList.add("error");
+        return;
+      }
+
+      const registro = {
+        nombre,
+        email,
+        telefono,
+        cumpleanos,
+        comoConocio,
+        quierePromos,
+        fecha: new Date().toISOString()
+      };
+
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
+
+      guardarLocal(registro);
+      await enviarASheets(registro);
+
+      document.getElementById("registroForm").style.display = "none";
+      document.getElementById("regSuccess").style.display = "block";
+    });
+  </script>
+
+  <!-- ===== LEKTRO FX SCRIPTS (inmersivo) ===== -->
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/lektro-nav.js"></script>
+  <script src="js/immersive.js"></script>
+  <script src="js/lektro-catalog.js"></script>
+  <script src="js/lektro-shop.js"></script>
+  <!-- ===== /LEKTRO FX SCRIPTS ===== -->
+</body>
+</html>
